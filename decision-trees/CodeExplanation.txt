@@ -1,0 +1,86 @@
+Certainly! Let's break down the code step by step as if you're a beginner data science student working on your first project.
+
+Importing Libraries:
+
+import pandas as pd
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+import pandas as pd: This imports the pandas library, which is used for data manipulation and analysis.
+from sklearn.tree import DecisionTreeClassifier: This imports the DecisionTreeClassifier class from the scikit-learn library. It's a machine learning algorithm that can be used for classification tasks.
+from sklearn.model_selection import train_test_split: This imports the train_test_split function, which helps you split your data into training and testing sets for model evaluation.
+from sklearn.metrics import accuracy_score: This imports the accuracy_score function, which will help us calculate the accuracy of our classification model.
+
+
+
+Loading the Dataset:
+
+col_names = ['Year', 'Month', 'Monthly Anomaly', 'Monthly Unc.', 'Annual Anomaly', 'Annual Unc', 'Five-Year Anomaly', 'Five-Year Unc.', 'Ten-Year Anomaly', 'Ten-Year Unc.', 'Twenty-Year Anomaly', 'Twenty-year Unc.']
+temperature = pd.read_csv("Temperature.csv", header=0, names=col_names)
+
+
+col_names: This is a list of column names for the dataset.
+temperature = pd.read_csv("Temperature.csv", header=0, names=col_names): This reads the CSV file named "Temperature.csv" into a pandas DataFrame called temperature using the specified column names.
+
+
+
+
+Creating a New Classification Column:
+
+temperature['Class'] = 'Normal'
+temperature.loc[temperature['Monthly Anomaly'] > 0.2, 'Class'] = 'Anomalous'
+
+We create a new column called "Class" in the DataFrame. Initially, all rows are labeled as "Normal".
+Using .loc, we update the "Class" column based on a condition: if the "Monthly Anomaly" is greater than 0.2, we label it as "Anomalous".
+
+
+
+Preparing Features and Labels:
+
+feature_cols = ['Year', 'Month', 'Monthly Anomaly', 'Monthly Unc.', 'Annual Anomaly', 'Annual Unc', 'Five-Year Anomaly', 'Five-Year Unc.', 'Ten-Year Anomaly', 'Ten-Year Unc.', 'Twenty-Year Anomaly']
+X = temperature[feature_cols]  # Features
+y = temperature['Class']  # Target variable
+
+feature_cols: These are the columns you want to use as input features for the model.
+X: This holds the feature columns.
+y: This holds the target column, which is the "Class" column we just created.
+
+
+
+Splitting Data into Train and Test Sets:
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=1)
+
+This splits your data into training and testing sets. The test_size parameter specifies the proportion of the data to be used for testing, and random_state ensures reproducibility.
+
+
+
+Creating and Training the Model:
+
+clf = DecisionTreeClassifier()  # Create Decision Tree classifier object
+clf.fit(X_train, y_train)  # Train Decision Tree Classifier
+
+
+clf = DecisionTreeClassifier(): This creates an instance of the DecisionTreeClassifier.
+clf.fit(X_train, y_train): This trains the model using the training data.
+
+
+
+
+Making Predictions:
+
+y_pred = clf.predict(X_test)  # Predict the response for the test dataset
+
+We use the trained model to predict the target values for the test features.
+
+
+
+Calculating Accuracy:
+
+accuracy = accuracy_score(y_test, y_pred)  # Calculate and print accuracy
+print("Accuracy:", accuracy)
+
+
+accuracy = accuracy_score(y_test, y_pred): This calculates the accuracy of the model's predictions compared to the true labels (y_test).
+print("Accuracy:", accuracy): This prints the calculated accuracy.
